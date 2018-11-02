@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    [[META]]
+  </head>
+
+  <body>
+
+    <h1>Register users</h1>
+
+    <form id="registerForm">
+        <input type="email" name="email" id="emailField" />
+        <input type="password" name="password" id="passwordField" />
+        <button type="submit">login</button>
+    </form>
+
+    <h1>Current users</h1>
+
+    <ul id="userList">
+
+    </ul>
+
+    <!-- SCRIPTS -->
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.11/js/mdb.min.js"></script>
+    <!-- JQuery UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <script>
+        function clearRegistrationForm() {
+            $('#emailField').val('');
+            $('#passwordField').val('');
+        }
+
+        function registerUser(email, password, successCallback) {
+            $.post({
+                url: '/auth/register',
+                data: {
+                    email,
+                    password
+                },
+                success: successCallback
+            })
+        }
+
+        function fetchUsers(successCallback) {
+            $.get({
+                url: '/users',
+                success: successCallback
+            });
+        }
+
+        function updateUsersList() {
+            fetchUsers((users) => {
+                $('#userList').html(
+                    JSON.parse(users).map(user => '<li>' + user.email + '</li>')
+                );
+            });
+        }
+
+        $('#registerForm').submit((event) => {
+            event.preventDefault();
+
+            const email = $('#emailField').val();
+            const password = $('#passwordField').val();
+            registerUser(email, password, () => {
+                console.log('user created');
+                clearRegistrationForm();
+                updateUsersList();
+            });
+        });
+
+        $(document).ready(() => {
+            updateUsersList();
+        });
+    </script>
+
+  </body>
+
+</html>
