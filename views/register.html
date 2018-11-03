@@ -10,8 +10,9 @@
     <h1>Register users</h1>
 
     <form id="registerForm">
-        <input type="email" name="email" id="emailField" />
-        <input type="password" name="password" id="passwordField" />
+        <input type="username" name="username" id="usernameField" placeholder="username" />
+        <input type="email" name="email" id="emailField" placeholder="email" />
+        <input type="password" name="password" id="passwordField" placeholder="password" />
         <button type="submit">login</button>
     </form>
 
@@ -39,14 +40,16 @@
         function clearRegistrationForm() {
             $('#emailField').val('');
             $('#passwordField').val('');
+            $('#usernameField').val('');
         }
 
-        function registerUser(email, password, successCallback) {
+        function registerUser(email, password, username, successCallback) {
             $.post({
                 url: '/auth/register',
                 data: {
                     email,
-                    password
+                    password,
+                    username
                 },
                 success: successCallback
             })
@@ -62,7 +65,7 @@
         function updateUsersList() {
             fetchUsers((users) => {
                 $('#userList').html(
-                    JSON.parse(users).map(user => '<li>' + user.email + '</li>')
+                    users.map(user => '<li>' + user.email + '</li>')
                 );
             });
         }
@@ -70,9 +73,10 @@
         $('#registerForm').submit((event) => {
             event.preventDefault();
 
+            const username = $('#usernameField').val();
             const email = $('#emailField').val();
             const password = $('#passwordField').val();
-            registerUser(email, password, () => {
+            registerUser(email, password, username, () => {
                 console.log('user created');
                 clearRegistrationForm();
                 updateUsersList();
