@@ -40,7 +40,7 @@
             <a class="d-block small mt-3" href="/login">Login Page</a>
             <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
             <h3>List of users</h3>
-            <ul id="userList"></ul>
+            <div id="userListContainer"></div>
           </div>
         </div>
       </div>
@@ -66,39 +66,10 @@
     <!-- Custom scripts for all pages -->
     <script src="js/sb-admin.min.js"></script>
 
-    <script>
-      function clearRegistrationForm() {
-          $('#emailField').val('');
-          $('#passwordField').val('');
-          $('#usernameField').val('');
-      }
-
-
-      function updateUsersList() {
-          fetchUsers((users) => {
-              $('#userList').html(
-                  users.map(user => '<li>' + user.email + '</li>')
-              );
-          });
-      }
-
-      $('#registerForm').submit((event) => {
-          event.preventDefault();
-
-          const username = $('#usernameField').val();
-          const email = $('#emailField').val();
-          const password = $('#passwordField').val();
-          registerUser(email, password, username, () => {
-              console.log('user created');
-              clearRegistrationForm();
-              updateUsersList();
-          });
-      });
-
-      $(document).ready(() => {
-          updateUsersList();
-      });
-  </script>
+    <script src="js/userAPI.js"></script>
+    <script src="js/components/RegistrationUI.js"></script>
+    <script src="js/components/UserListUI.js"></script>
+    <script src="js/pages/registrationPage.js"></script>
 
   </body>
 

@@ -1,8 +1,15 @@
-class RegistrationForm{
+class RegistrationUI {
 
     constructor(wrapperId, submitCB){
         this.wrapperId = wrapperId;
         this.submitCB = submitCB;
+    }
+
+    getInputValues() {
+        const email = $('#emailField').val();
+        const username = $('#usernameField').val();
+        const password = $('#passwordField').val();
+        return { email, username, password,  };
     }
 
     clear(){
@@ -47,12 +54,13 @@ class RegistrationForm{
             </div>
             </div>
             <button class="btn btn-primary btn-block" type="submit">Register</button>
-        </form>`
+        </form>`;
 
-        $('#' + this.wrapperId).html(html)
-        this.submitCB();
+        $('#' + this.wrapperId).html(html);
 
-
-
+        $('#registerForm').submit((event) => {
+            event.preventDefault();
+            this.submitCB(this);
+        });
     }
 }
