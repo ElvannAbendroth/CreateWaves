@@ -21,8 +21,9 @@ router.get('/', function(req, res, next) {
   res.send(result);
 });
 
-/* GET login page. */
+/* GET register page. */
 router.get('/register', function(req, res, next) {
+  // loads the register page from template, but doesn't handle the post request
   const title = "CreateWaves"
   const meta = fs.readFileSync(path.join(__dirname, '../views/meta.html'), "utf8");
   const url = '/';
