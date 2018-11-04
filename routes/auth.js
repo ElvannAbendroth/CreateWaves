@@ -3,10 +3,31 @@ var router = express.Router();
 var User = require('../models/user');
 
 
-
 router.post('/login', function(req, res, next) {
-    res.send('hi from login');
-    // expected to have: email, password
+    const email = req.body.email;
+    const password = req.body.password;
+
+    if (!email || !password) {
+        res.status(400).send('Email or password missing');
+    }
+
+    User.findOne({
+        where: {
+            email,
+            password
+        }
+    }).then(result => {
+        if (result) {
+            const user = result.dataValues;
+
+            req.session.user = user;
+
+            res.send('Hello ' + user.username);
+        } else {
+            res.status(401).send('User and password combination incorrect');
+        }
+    })
+
 });
 
 router.post('/logout', function(req, res, next) {

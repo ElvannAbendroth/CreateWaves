@@ -10,6 +10,18 @@ function registerUser(email, password, username, successCallback) {
     })
 }
 
+function loginUser(email, password, successCallback, errorCallback) {
+    $.post({
+        url: '/auth/login',
+        data: {
+            email,
+            password
+        },
+        success: successCallback,
+        error: errorCallback
+    })
+}
+
 function fetchUsers(successCallback) {
     $.get({
         url: '/users',

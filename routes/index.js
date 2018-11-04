@@ -51,4 +51,10 @@ router.get('/login', function(req, res, next) {
   const result = templateEngine(template, '/', title, metaTemplate, '');
   res.send(result);
 });
+
+
+router.get('/current-user', (req, res) => {
+  res.json(req.session.user);
+});
+
 module.exports = router;

@@ -1,3 +1,5 @@
+import UserListUI from '../components/UserListUI';
+
 const userList = new UserListUI('userListContainer');
 userList.init();
 
